@@ -1,0 +1,6 @@
+django
+psycopg2-binary
+pdfplumber 
+python-dotenv 
+django-cors-headers 
+google-generativeai
