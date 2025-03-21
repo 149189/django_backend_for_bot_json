@@ -4,3 +4,4 @@ pdfplumber
 python-dotenv 
 django-cors-headers 
 google-generativeai
+dj-database-url
