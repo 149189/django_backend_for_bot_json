@@ -41,7 +41,6 @@ INSTALLED_APPS = [
      'corsheaders',
     'backend',
     'prediction',
-    'anomalies',
 ]
 
 MIDDLEWARE = [
