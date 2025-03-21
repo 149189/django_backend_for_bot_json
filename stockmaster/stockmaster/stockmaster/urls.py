@@ -5,5 +5,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('backend.urls')),  # Include the backend app URLs
+    path('', include('backend.urls')),
+       path('api/', include('prediction.urls')),  # Include the backend app URLs
 ]
