@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import financial_query
+from . import views
 
 urlpatterns = [
-    path('financial_query/', financial_query, name='financial_query'),
+    path('upload_url', views.upload_url, name='upload_url'),
+    path('api/finance-chat', views.finance_chat, name='finance_chat'),
 ]
