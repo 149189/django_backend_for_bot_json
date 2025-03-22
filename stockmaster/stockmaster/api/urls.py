@@ -1,11 +1,6 @@
 from django.urls import path
-from . import views
+from .views import financial_query
 
 urlpatterns = [
-
-    
-    # Financial Insights (with prediction/anomaly integration)
-    path('financial-insight/', views.financial_insight, name='financial_insight'),
-    
-    
+    path('financial_query/', financial_query, name='financial_query'),
 ]
