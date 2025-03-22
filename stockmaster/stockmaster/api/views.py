@@ -1,7 +1,6 @@
 import os
 import json
 import requests
-import re
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
@@ -15,27 +14,22 @@ if not GEMINI_API_KEY:
 genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel('gemini-2.0-flash')
 
-# System Prompt for AI Behavior
+# System Prompt for Financial Assistant
 SYSTEM_PROMPT = """
-You are a financial assistant specialized in personal banking and budget management. 
-Your role is to:
-1. Answer ONLY finance-related questions about budgets, expenses, and predictions.
-2. Use available prediction data and historical spending data for insights.
-3. Always provide responses in this JSON format:
+You are a financial assistant specializing in personal banking and budget management.
+You will:
+1. Answer ONLY finance-related questions regarding expenses, budgets, and financial predictions.
+2. Use available prediction and historical spending data.
+3. Provide responses in JSON format like this:
    {"response": "your financial insight"}
-
-Use historical data for past expenses and predictive insights for future expenses.
 """
 
 def get_financial_data():
     """Fetch user’s financial prediction and historical spending data."""
     try:
         # Fetch predictions from internal API
-        response = requests.get("http://127.0.0.1:8000/api/predict-spends/")
-        response.raise_for_status()  # Raise error for bad responses
-        predictions = response.json()
-
-        # Example historical spending data (this can come from a database)
+        predictions = requests.get("http://127.0.0.1:8000/api/predict-spends/").json()
+        # Example historical spending data
         historical = {
             "Food": 500.00,
             "Travel": 300.00,
@@ -49,41 +43,27 @@ def get_financial_data():
     except requests.RequestException as e:
         return {"error": f"Data fetch failed: {str(e)}"}
 
-def clean_gemini_response(raw_text):
-    """
-    Cleans Gemini's response, ensuring it returns valid JSON.
-    Uses Gemini API itself to correct malformed responses.
-    """
-    # Remove markdown-style code block formatting
-    cleaned_text = re.sub(r"```json\n(.*?)\n```", r"\1", raw_text, flags=re.DOTALL).strip()
-
+def clean_response(response_text):
+    """Extracts and cleans JSON response from the AI model."""
     try:
-        parsed_response = json.loads(cleaned_text)
-        if "response" in parsed_response:
-            return {"response": parsed_response["response"]}
-        else:
-            raise ValueError("Missing 'response' key")
-    except (json.JSONDecodeError, ValueError):
-        # Ask Gemini to fix the malformed JSON
-        correction_prompt = f"""
-        The following response is improperly formatted JSON:
+        # Remove markdown formatting if present (e.g., ```json ... ```)
+        response_text = response_text.replace("```json", "").replace("```", "").strip()
         
-        {cleaned_text}
+        # Parse JSON if valid
+        response_data = json.loads(response_text)
+        if isinstance(response_data, dict) and "response" in response_data:
+            return response_data  # Already in correct format
         
-        Correct it and return only valid JSON in this format:
-        {{"response": "your financial insight"}}
-        """
-        corrected_response = model.generate_content(correction_prompt)
-        
-        try:
-            return json.loads(corrected_response.text.strip())
-        except json.JSONDecodeError:
-            return {"response": "Error processing AI response"}
+        # If not a valid JSON, wrap it in a dictionary
+        return {"response": response_text}
+    
+    except json.JSONDecodeError:
+        return {"response": response_text}  # Return raw text if not JSON formatted
 
 @csrf_exempt
 @require_http_methods(["POST"])
 def financial_query(request):
-    """Handles user financial queries and returns Gemini AI response in JSON format."""
+    """Handles user financial queries and returns cleaned JSON response."""
     try:
         # Parse user input
         data = json.loads(request.body)
@@ -98,22 +78,25 @@ def financial_query(request):
 
         # Construct AI prompt
         ai_prompt = f"""
-        {SYSTEM_PROMPT}
+{SYSTEM_PROMPT}
 
-        User Query: {user_query}
+User Query: {user_query}
 
-        Available Data:
-        - Predictions (Next 7 Days): {json.dumps(financial_data['predictions'], indent=2)}
-        - Historical Spending (Current Month): {json.dumps(financial_data['historical'], indent=2)}
+Available Data:
+- Predictions (Next 7 Days): {json.dumps(financial_data['predictions'], indent=2)}
+- Historical Spending (Current Month): {json.dumps(financial_data['historical'], indent=2)}
 
-        Provide response in this format:
-        {{"response": "Your financial insight"}}
-        """
+Provide response in this exact format:
+{{"response": "Your financial insight"}}
+"""
 
         # Generate response from Gemini API
         gemini_response = model.generate_content(ai_prompt)
-        cleaned_response = clean_gemini_response(gemini_response.text)
 
+        # Extract text response from Gemini API and clean it
+        cleaned_response = clean_response(gemini_response.text.strip())
+
+        # Return structured JSON response
         return JsonResponse(cleaned_response)
 
     except json.JSONDecodeError:
