@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'backend',
     'prediction',
     'api',
+    
 ]
 
 MIDDLEWARE = [

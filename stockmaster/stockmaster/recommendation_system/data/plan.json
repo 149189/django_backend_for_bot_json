@@ -1,0 +1,104 @@
+{
+  "investment_plans": [
+    {
+      "salary_range": "Below 30k",
+      "plan_name": "Conservative Starter",
+      "recommended_allocation": {
+        "bonds": "60%",
+        "stocks": "20%",
+        "cash": "20%"
+      },
+      "description": "A low-risk plan focusing on capital preservation while gradually entering the market."
+    },
+    {
+      "salary_range": "30k-50k",
+      "plan_name": "Balanced Growth",
+      "recommended_allocation": {
+        "bonds": "50%",
+        "stocks": "40%",
+        "cash": "10%"
+      },
+      "description": "A balanced mix of income and growth investments to steadily build wealth."
+    },
+    {
+      "salary_range": "50k-70k",
+      "plan_name": "Moderate Advantage",
+      "recommended_allocation": {
+        "bonds": "40%",
+        "stocks": "50%",
+        "cash": "10%"
+      },
+      "description": "Slightly more aggressive with a higher stock allocation for long-term growth."
+    },
+    {
+      "salary_range": "70k-90k",
+      "plan_name": "Growth Seeker",
+      "recommended_allocation": {
+        "bonds": "35%",
+        "stocks": "55%",
+        "cash": "10%"
+      },
+      "description": "An increased emphasis on stocks aimed at capital appreciation with moderate risk."
+    },
+    {
+      "salary_range": "90k-110k",
+      "plan_name": "Dynamic Builder",
+      "recommended_allocation": {
+        "bonds": "30%",
+        "stocks": "60%",
+        "cash": "10%"
+      },
+      "description": "A plan designed for investors looking to build wealth quickly while managing moderate risk."
+    },
+    {
+      "salary_range": "110k-130k",
+      "plan_name": "Aggressive Growth",
+      "recommended_allocation": {
+        "bonds": "25%",
+        "stocks": "70%",
+        "cash": "5%"
+      },
+      "description": "Focused on rapid growth with a higher allocation to stocks and lower emphasis on bonds."
+    },
+    {
+      "salary_range": "130k-150k",
+      "plan_name": "Wealth Accelerator",
+      "recommended_allocation": {
+        "bonds": "20%",
+        "stocks": "75%",
+        "cash": "5%"
+      },
+      "description": "A more aggressive plan for accelerating wealth accumulation for mid-high earners."
+    },
+    {
+      "salary_range": "150k-200k",
+      "plan_name": "High Growth Optimizer",
+      "recommended_allocation": {
+        "bonds": "15%",
+        "stocks": "80%",
+        "cash": "5%"
+      },
+      "description": "For those who can take on higher risk, focusing on maximizing capital growth through equities."
+    },
+    {
+      "salary_range": "200k-300k",
+      "plan_name": "Elite Portfolio",
+      "recommended_allocation": {
+        "bonds": "15%",
+        "stocks": "80%",
+        "cash": "5%"
+      },
+      "description": "A sophisticated investment strategy that blends aggressive growth with selective income investments."
+    },
+    {
+      "salary_range": "Above 300k",
+      "plan_name": "Luxury Wealth Plan",
+      "recommended_allocation": {
+        "bonds": "10%",
+        "stocks": "85%",
+        "cash": "5%"
+      },
+      "description": "An elite strategy aimed at high-net-worth individuals looking for maximum growth and capital appreciation."
+    }
+  ]
+}
