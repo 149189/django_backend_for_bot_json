@@ -1,8 +1,11 @@
-django
-psycopg2-binary
-pdfplumber 
-python-dotenv 
-django-cors-headers 
-google-generativeai
-dj-database-url
-genai
+pip install django psycopg2-binary pdfplumber python-dotenv django-cors-headers google-generativeai dj-database-url django-cors-headers requests psycopg2
+pip install genai
+
+
+
+
+
+
+
+
+
