@@ -1,0 +1,23 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django specific
+*.log
+*.pot
+*.pyc
+
+# Environment variables
+.env
+
+# Django migrations cache (if you prefer to track migrations, remove these)
+*/migrations/__pycache__/
+*/migrations/*.pyc
+
+# VS Code / PyCharm / Other IDE settings
+.vscode/
+.idea/
+
+# OS-specific files
+.DS_Store
